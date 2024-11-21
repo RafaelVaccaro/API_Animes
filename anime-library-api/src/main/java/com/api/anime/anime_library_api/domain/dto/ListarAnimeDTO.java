@@ -1,6 +1,6 @@
-package com.api.anime.anime_library_api.application.dto;
+package com.api.anime.anime_library_api.domain.dto;
 
-import com.api.anime.anime_library_api.domain.entity.Anime;
+import com.api.anime.anime_library_api.infrastructure.entity.Anime;
 
 public record ListarAnimeDTO(Long id, String titulo, Double nota) {
 

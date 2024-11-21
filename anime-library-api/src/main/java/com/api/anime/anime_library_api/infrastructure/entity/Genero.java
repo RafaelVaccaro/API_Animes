@@ -1,4 +1,4 @@
-package com.api.anime.anime_library_api.domain.entity;
+package com.api.anime.anime_library_api.infrastructure.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

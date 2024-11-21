@@ -1,4 +1,4 @@
-package com.api.anime.anime_library_api.application.dto;
+package com.api.anime.anime_library_api.domain.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;

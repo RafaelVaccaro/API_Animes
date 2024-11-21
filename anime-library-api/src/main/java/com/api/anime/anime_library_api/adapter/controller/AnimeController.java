@@ -1,105 +1,76 @@
 package com.api.anime.anime_library_api.adapter.controller;
 
-import com.api.anime.anime_library_api.application.dto.*;
-import com.api.anime.anime_library_api.application.usecase.*;
-import com.api.anime.anime_library_api.domain.entity.Anime;
+import com.api.anime.anime_library_api.domain.service.AnimeService;
+import com.api.anime.anime_library_api.domain.dto.*;
+import com.api.anime.anime_library_api.infrastructure.entity.Anime;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("animes")
+@RequiredArgsConstructor
 public class AnimeController {
 
-    private final RegistrarAnimeUseCase registrarAnimeUseCase;
-    private final AvaliarAnimeUseCase avaliarAnimeUseCase;
-    private final ListarAnimesUseCase listarAnimesUseCase;
-    private final DetalharAnimeUseCase detalharAnimeUseCase;
-    private final AtualizarAnimeUseCase atualizarAnimeUseCase;
-    private final DesativarAnimeUseCase desativarAnimeUseCase;
-    private final AtivarAnimeUseCase ativarAnimeUseCase;
-    private final ListarAnimesPorGeneroUseCase listarAnimesPorGeneroUseCase;
-    private final AdicionarGeneroUseCase adicionarGeneroUseCase;
-
-    @Autowired
-    public AnimeController(RegistrarAnimeUseCase registrarAnimeUseCase, AvaliarAnimeUseCase avaliarAnimeUseCase, ListarAnimesUseCase listarAnimesUseCase, DetalharAnimeUseCase detalharAnimeUseCase, AtualizarAnimeUseCase atualizarAnimeUseCase, DesativarAnimeUseCase desativarAnimeUseCase, AtivarAnimeUseCase ativarAnimeUseCase, ListarAnimesPorGeneroUseCase listarAnimesPorGeneroUseCase, AdicionarGeneroUseCase adicionarGeneroUseCase) {
-        this.registrarAnimeUseCase = registrarAnimeUseCase;
-        this.avaliarAnimeUseCase = avaliarAnimeUseCase;
-        this.listarAnimesUseCase = listarAnimesUseCase;
-        this.detalharAnimeUseCase = detalharAnimeUseCase;
-        this.atualizarAnimeUseCase = atualizarAnimeUseCase;
-        this.desativarAnimeUseCase = desativarAnimeUseCase;
-        this.ativarAnimeUseCase = ativarAnimeUseCase;
-        this.listarAnimesPorGeneroUseCase = listarAnimesPorGeneroUseCase;
-        this.adicionarGeneroUseCase = adicionarGeneroUseCase;
-    }
-
-
-
+    private final AnimeService animeService;
 
     @PostMapping
     @Transactional
-    public ResponseEntity<Anime> registrar(@RequestBody @Valid RegistroAnimeDTO dados) {
-        Anime anime = registrarAnimeUseCase.registrar(dados);
-        return ResponseEntity.status(HttpStatus.CREATED).body(anime);
+    @ResponseStatus(HttpStatus.CREATED)
+    public Anime registrar(@RequestBody @Valid RegistroAnimeDTO dados) {
+        return animeService.registrar(dados);
     }
 
     @PostMapping("/{id}/avaliar")
-    public ResponseEntity<Void> avaliar(@PathVariable Long id, @RequestBody AvaliarDTO dados) {
-        avaliarAnimeUseCase.avaliar(id, dados);
-        return ResponseEntity.ok().build();
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void avaliar(@PathVariable Long id, @RequestBody AvaliarDTO dados) {
+        animeService.avaliar(id, dados);
     }
 
     @GetMapping("/genero/{genero}")
-    public ResponseEntity<Page<ListarAnimeDTO>> listarAnimePorGenero(@PathVariable String genero, @PageableDefault(size = 10, sort = {"id"}) Pageable paginacao) {
-        Page<ListarAnimeDTO> page = listarAnimesPorGeneroUseCase.listaGenero(genero, paginacao);
-        return ResponseEntity.ok(page);
+    public Page<ListarAnimeDTO> listarAnimePorGenero(@PathVariable String genero, @PageableDefault(size = 10, sort = {"id"}) Pageable paginacao) {
+        return animeService.listaGenero(genero, paginacao);
+
     }
 
     @GetMapping
-    public ResponseEntity<Page<ListarAnimeDTO>> listar(@PageableDefault(size = 10, sort = {"id"}) Pageable paginacao) {
-        Page<ListarAnimeDTO> page = listarAnimesUseCase.listar(paginacao);
-        return ResponseEntity.ok(page);
+    public Page<ListarAnimeDTO> listar(@PageableDefault(size = 10, sort = {"id"}) Pageable paginacao) {
+        return animeService.listar(paginacao);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DetalhamentoAnimeDTO> detalhar(@PathVariable Long id){
-        Anime anime = detalharAnimeUseCase.detalhar(id);
-        return ResponseEntity.ok(new DetalhamentoAnimeDTO(anime));
+    public DetalhamentoAnimeDTO detalhar(@PathVariable Long id){
+        return animeService.detalhar(id);
     }
 
     @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity<DetalhamentoAnimeDTO> atualizar(@RequestBody @Valid AtualizacaoAnimeDTO dados, @PathVariable Long id) {
-        Anime anime = atualizarAnimeUseCase.atualizar(dados, id);
-        return ResponseEntity.ok(new DetalhamentoAnimeDTO(anime));
+    public DetalhamentoAnimeDTO atualizar(@RequestBody @Valid AtualizacaoAnimeDTO dados, @PathVariable Long id) {
+        return animeService.atualizar(dados, id);
     }
 
 
     @PutMapping("/{id}/ativar")
     @Transactional
-    public ResponseEntity<DetalhamentoAnimeDTO> ativar(@PathVariable Long id) {
-        Anime anime = ativarAnimeUseCase.ativar(id);
-        return ResponseEntity.ok(new DetalhamentoAnimeDTO(anime));
+    public DetalhamentoAnimeDTO ativar(@PathVariable Long id) {
+        return animeService.ativar(id);
     }
 
     @PutMapping("/{id}/{genero}")
     @Transactional
-    public ResponseEntity<Void> adicionarGenero(@PathVariable Long id, @PathVariable String genero) {
-        adicionarGeneroUseCase.adicionarGenero(id, genero);
-        return ResponseEntity.ok().build();
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void adicionarGenero(@PathVariable Long id, @PathVariable String genero) {
+        animeService.adicionarGenero(id, genero);
     }
 
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity<DetalhamentoAnimeDTO> desativar(@PathVariable Long id) {
-        Anime anime = desativarAnimeUseCase.desativar(id);
-        return ResponseEntity.ok(new DetalhamentoAnimeDTO(anime));
+    public DetalhamentoAnimeDTO desativar(@PathVariable Long id) {
+        return animeService.desativar(id);
     }
 }

@@ -1,6 +1,6 @@
-package com.api.anime.anime_library_api.application.dto;
+package com.api.anime.anime_library_api.domain.dto;
 
-import com.api.anime.anime_library_api.domain.entity.Genero;
+import com.api.anime.anime_library_api.infrastructure.entity.Genero;
 
 public record ListarGenerosDTO(String nome) {
     public ListarGenerosDTO(Genero genero) {

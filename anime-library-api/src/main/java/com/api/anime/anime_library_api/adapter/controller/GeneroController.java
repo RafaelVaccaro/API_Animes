@@ -1,7 +1,6 @@
 package com.api.anime.anime_library_api.adapter.controller;
 
-import com.api.anime.anime_library_api.application.dto.ListarAnimeDTO;
-import com.api.anime.anime_library_api.application.dto.ListarGenerosDTO;
+import com.api.anime.anime_library_api.domain.dto.ListarGenerosDTO;
 import com.api.anime.anime_library_api.application.usecase.ListarGenerosUseCase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
