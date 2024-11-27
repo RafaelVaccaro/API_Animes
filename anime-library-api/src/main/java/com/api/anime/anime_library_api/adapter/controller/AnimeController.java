@@ -28,7 +28,7 @@ public class AnimeController {
 
     @PostMapping("/{id}/avaliar")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void avaliar(@PathVariable Long id, @RequestBody AvaliarDTO dados) {
+    public void avaliar(@PathVariable Long id, @RequestBody @Valid AvaliarDTO dados) {
         animeService.avaliar(id, dados);
     }
 

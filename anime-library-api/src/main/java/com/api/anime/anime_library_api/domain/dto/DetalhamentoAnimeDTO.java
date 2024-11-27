@@ -2,6 +2,9 @@ package com.api.anime.anime_library_api.domain.dto;
 
 import com.api.anime.anime_library_api.infrastructure.entity.Anime;
 import com.api.anime.anime_library_api.infrastructure.entity.Genero;
+import com.api.anime.anime_library_api.util.NotaSerializer;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Builder;
 
 import java.util.List;
@@ -12,6 +15,7 @@ public record DetalhamentoAnimeDTO(
         Long id,
         String titulo,
         String autor,
+        @JsonSerialize(using = NotaSerializer.class)
         Double nota,
         String sinopse,
         List<String> generos,

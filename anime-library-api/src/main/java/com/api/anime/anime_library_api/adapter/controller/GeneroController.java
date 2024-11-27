@@ -1,7 +1,8 @@
 package com.api.anime.anime_library_api.adapter.controller;
 
 import com.api.anime.anime_library_api.domain.dto.ListarGenerosDTO;
-import com.api.anime.anime_library_api.application.usecase.ListarGenerosUseCase;
+import com.api.anime.anime_library_api.domain.service.GeneroService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,19 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("generos")
+@RequiredArgsConstructor
 public class GeneroController {
 
-    private final ListarGenerosUseCase listarGeneros;
-
-    @Autowired
-    public GeneroController(ListarGenerosUseCase listarGeneros) {
-        this.listarGeneros = listarGeneros;
-    }
+    private final GeneroService generoService;
 
     @GetMapping
-    public ResponseEntity<Page<ListarGenerosDTO>> listarGeneros(@PageableDefault(size = 20, sort = {"nome"}) Pageable paginacao) {
-        Page<ListarGenerosDTO> page = listarGeneros.listar(paginacao);
-        return ResponseEntity.ok(page);
+    public Page<ListarGenerosDTO> listarGeneros(@PageableDefault(size = 20, sort = {"nome"}) Pageable paginacao) {
+        return generoService.listar(paginacao);
     }
-
 }

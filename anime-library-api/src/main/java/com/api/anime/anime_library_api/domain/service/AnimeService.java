@@ -5,6 +5,7 @@ import com.api.anime.anime_library_api.domain.service.GeneroService;
 import com.api.anime.anime_library_api.infrastructure.entity.Anime;
 import com.api.anime.anime_library_api.infrastructure.entity.Genero;
 import com.api.anime.anime_library_api.infrastructure.repository.AnimeJPARepository;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -33,7 +34,7 @@ public class AnimeService {
         return anime;
     }
 
-    public void avaliar(Long id, AvaliarDTO novaNota) {
+    public void avaliar(Long id, @Valid AvaliarDTO novaNota) {
         Anime anime = animeJPARepository.getReferenceById(id);
         anime.adicionarNota(novaNota.nota());
         animeJPARepository.save(anime);
