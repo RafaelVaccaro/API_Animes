@@ -23,7 +23,7 @@ public class SecurityConfig {
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt
-                                .jwtAuthenticationConverter(jwtAuthenticationConverter()) // Conversor de roles
+                                .jwtAuthenticationConverter(jwtAuthenticationConverter()) // Conversor de roleswww
                         )
                 );
 
