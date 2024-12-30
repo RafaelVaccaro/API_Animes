@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/API_Animes.iml" filepath="$PROJECT_DIR$/.idea/API_Animes.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/anime-library-api.main.iml" filepath="$PROJECT_DIR$/.idea/modules/anime-library-api.main.iml" />
     </modules>
   </component>
 </project>

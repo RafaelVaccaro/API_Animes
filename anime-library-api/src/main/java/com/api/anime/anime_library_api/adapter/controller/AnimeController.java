@@ -54,7 +54,6 @@ public class AnimeController {
         return animeService.atualizar(dados, id);
     }
 
-
     @PutMapping("/{id}/ativar")
     @Transactional
     public DetalhamentoAnimeDTO ativar(@PathVariable Long id) {

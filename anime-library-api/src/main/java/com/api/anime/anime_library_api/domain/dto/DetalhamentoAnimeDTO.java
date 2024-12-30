@@ -10,7 +10,7 @@ import lombok.Builder;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Builder
+    @Builder
 public record DetalhamentoAnimeDTO(
         Long id,
         String titulo,
